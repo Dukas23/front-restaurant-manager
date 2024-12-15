@@ -1,0 +1,16 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>NIT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let empresa of empresas">
+      <td>{{ empresa.id }}</td>
+      <td>{{ empresa.nombre }}</td>
+      <td>{{ empresa.nit }}</td>
+    </tr>
+  </tbody>
+</table>
