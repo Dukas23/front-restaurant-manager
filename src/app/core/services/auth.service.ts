@@ -1,22 +1,61 @@
-// src/app/core/services/auth.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-// import { LoginRequest } from './login-request.model';
+import { tap } from 'rxjs/operators';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
+  private apiUrl = 'http://localhost:8080/api/auth/'; // URL base de tu API de autenticación
+
   constructor(private http: HttpClient) {}
 
-  login(request: LoginRequest): Observable<any> {
-    return this.http.post<any>('/api/auth/login', request);
+  // Método para iniciar sesión
+  login(username: string, password: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      withCredentials: true, // Incluye las cookies en la solicitud
+    };
+    return this.http
+      .post(`${this.apiUrl}signin`, { username, password }, httpOptions)
+      .pipe(
+        tap((response: any) => {
+          if (response && response.token) {
+            // Almacena el token en el almacenamiento local
+            localStorage.setItem('jwt_token', response.token);
+          }
+        })
+      );
   }
 
-  logout() {
-    localStorage.removeItem('token');
+  // Método para registrar un nuevo usuario
+  register(username: string, email: string, password: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.http.post(
+      `${this.apiUrl}signup`,
+      { username, email, password },
+      httpOptions
+    );
   }
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+  // Método para cerrar sesión
+  logout(): void {
+    localStorage.removeItem('jwt_token');
+    // Opcional: realizar una solicitud al backend para invalidar el token
+  }
+
+  // Método para obtener el token almacenado
+  getToken(): string | null {
+    return localStorage.getItem('jwt_token');
+  }
+
+  // Método para verificar si el usuario está autenticado
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    // Aquí puedes añadir lógica adicional para verificar la validez del token
+    return !!token;
   }
 }

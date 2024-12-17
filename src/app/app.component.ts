@@ -2,32 +2,23 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { EmpresaListComponent } from "./features/empresas/empresa-list/empresa-list.component";
-
-// @Component({
-//   selector: 'app-root',
-//   imports: [RouterOutlet],
-//   templateUrl: './app.component.html',
-//   styleUrl: './app.component.css'
-// })
-// export class AppComponent {
-//   title = 'front-restaurant-manager';
-// }
+import { LoginComponent } from "./features/Auth/login/login.component";
 
 @Component({
   selector: 'app-root',
-  imports: [HomeComponent, EmpresaListComponent],
+  standalone: true,
+  imports: [RouterOutlet, HomeComponent, EmpresaListComponent, LoginComponent],
   template: `<main>
-      <header class="brand-name">
-        <img class="brand-logo" src="logo.svg" alt="logo" aria-hidden="true" />
-      </header>
-      <section class="content">
-        <app-home></app-home>
-        <app-empresa-list></app-empresa-list>
-      </section>
-    </main>
-  `,
+    <header class="brand-name">
+      <img class="brand-logo" src="logo.svg" alt="logo" aria-hidden="true" />
+    </header>
+    <section class="content">
+      <router-outlet></router-outlet>
+      <!-- Asegura que RouterOutlet esté presente -->
+    </section>
+  </main> `,
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'homes';
+  title = 'front-restaurant-manager';
 }

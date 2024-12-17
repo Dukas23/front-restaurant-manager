@@ -15,8 +15,9 @@ export class EmpresaListComponent implements OnInit {
   constructor(private empresaService: EmpresaService) {}
 
   ngOnInit(): void {
-    this.empresaService.getEmpresas().subscribe((empresas) => {
-      this.empresas = empresas;
-    });
+    this.empresaService.getEmpresas().subscribe(
+      (data) => (this.empresas = data),
+      (error) => console.error('Error al obtener las empresas', error)
+    );
   }
 }
