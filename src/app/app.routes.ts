@@ -4,8 +4,10 @@ import { HomeComponent } from './features/home/home.component';
 import { EmpresaListComponent } from './features/empresas/empresa-list/empresa-list.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'empresas', component: EmpresaListComponent },
-  // Otras rutas...
+  { path: '', component: HomeComponent, title: 'Home page' },
+  { path: 'login', component: LoginComponent, title: 'Login page' },
+  { path: 'empresas', component: EmpresaListComponent, title: 'Empresas page' },
+
 ];
+
+export default routes;

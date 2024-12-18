@@ -7,16 +7,22 @@ import { LoginComponent } from "./features/Auth/login/login.component";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HomeComponent, EmpresaListComponent, LoginComponent],
-  template: `<main>
-    <header class="brand-name">
-      <img class="brand-logo" src="logo.svg" alt="logo" aria-hidden="true" />
-    </header>
+  imports: [RouterOutlet],
+  template: ` <main>
+    <a routerLink="/">
+      <header class="brand-name">
+        <img
+          class="brand-logo"
+          src="/assets/icons/logo.svg"
+          alt="logo"
+          aria-hidden="true"
+        />
+      </header>
+    </a>
     <section class="content">
       <router-outlet></router-outlet>
-      <!-- Asegura que RouterOutlet esté presente -->
     </section>
-  </main> `,
+  </main>`,
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
