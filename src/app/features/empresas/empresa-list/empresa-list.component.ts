@@ -13,7 +13,7 @@ export class EmpresaListComponent implements OnInit {
   empresas: Empresa[] = [];
 
   constructor(private empresaService: EmpresaService) {}
-
+  //Todo: Mirar cual es el acutal para ese subscribe o mirar como se hace
   ngOnInit(): void {
     this.empresaService.getEmpresas().subscribe(
       (data) => (this.empresas = data),

@@ -2,27 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment.dev';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth/'; // URL base de tu API de autenticación
+  private apiUrl:string = `${environment.base_url}/auth/`; // URL base de tu API de autenticación
 
   constructor(private http: HttpClient) {}
 
-  // Método para iniciar sesión
-  login(username: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      withCredentials: true, // Incluye las cookies en la solicitud
+      withCredentials: true,
     };
     return this.http
-      .post(`${this.apiUrl}signin`, { username, password }, httpOptions)
+      .post(`${this.apiUrl}login`, { email, password }, httpOptions)
       .pipe(
         tap((response: any) => {
           if (response && response.token) {
-            // Almacena el token en el almacenamiento local
             localStorage.setItem('jwt_token', response.token);
           }
         })

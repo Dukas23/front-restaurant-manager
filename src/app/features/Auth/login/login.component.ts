@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { FormsModule } from '@angular/forms'; // Importa FormsModule
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -20,7 +21,7 @@ export class LoginComponent {
   onSubmit(): void {
     this.authService.login(this.email, this.password).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['empresas']);
       },
       error: (err) => {
         this.errorMessage = 'Correo electrónico o contraseña incorrectos.';
