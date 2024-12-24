@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -8,21 +8,21 @@ import { environment } from '../../../environments/environment.dev';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl:string = `${environment.base_url}/auth/`; // URL base de tu API de autenticación
+  private apiUrl: string = `${environment.base_url}/auth/`; // URL base de tu API de autenticación
 
-  constructor(private http: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   login(email: string, password: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      withCredentials: true,
+      // withCredentials: true,
     };
-    return this.http
+    return this.httpClient
       .post(`${this.apiUrl}login`, { email, password }, httpOptions)
       .pipe(
         tap((response: any) => {
-          if (response && response.token) {
-            localStorage.setItem('jwt_token', response.token);
+          if (response && response.jwt) {
+            localStorage.setItem('jwt_token', response.jwt);
           }
         })
       );
@@ -33,7 +33,7 @@ export class AuthService {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
-    return this.http.post(
+    return this.httpClient.post(
       `${this.apiUrl}signup`,
       { username, email, password },
       httpOptions
@@ -48,7 +48,7 @@ export class AuthService {
 
   // Método para obtener el token almacenado
   getToken(): string | null {
-    return localStorage.getItem('jwt_token');
+    return localStorage.getItem('jwt_token') || '' ;
   }
 
   // Método para verificar si el usuario está autenticado
